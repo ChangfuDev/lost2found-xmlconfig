@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration scan="true" scanPeriod="1800 seconds" debug="false">
+  <!--// 属性定义 //-->
+  <property name="contextName" value="xmlconfig-logback_context" />
+  <property name="logHome" value="logs" />
+  <property name="allLogFilePath" value="all" />
+  <property name="allLogFileName" value="all" />
+  <property name="businessLogFilePath" value="business" />
+  <property name="businessLogFileName" value="business" />
+  <property name="sqlLogFilePath" value="sql" />
+  <property name="sqlLogFileName" value="sql" />
+  <property name="errorLogFilePath" value="error" />
+  <property name="errorLogFileName" value="error" />
+  <property name="aopLogFilePath" value="aop" />
+  <property name="aopLogFileName" value="aop" />
+
+  <!-- 通用日志格式:
+    %d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度，%msg：日志消息，%n是换行符
+   -->
+  <property name="commonPattern" value="%d [%thread] %-5level %logger{100} - %msg%n" />
+
+  <!--// 日期时间格式定义 //-->
+  <timestamp key="month" datePattern="yyyy-MM" />
+  <timestamp key="day" datePattern="yyyy-MM-dd" />
+  <timestamp key="hour" datePattern="yyyy-MM-dd'T'HH" />
+  <timestamp key="minute" datePattern="yyyy-MM-dd'T'HH:mm" />
+  <timestamp key="second" datePattern="yyyy-MM-dd'T'HH:mm:ss" />
+
+  <!-- contextName:
+    每个logger都关联到logger上下文，默认上下文名称为“default”。
+    但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。
+    一旦设置，不能修改。
+    -->
+  <contextName>${contextName}</contextName>
+
+  <!--// appender定义 //-->
+  <!-- console,标准输出 -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${commonPattern}</pattern>
+    </encoder>
+  </appender>
+  <!-- rollingFile,全量日志 -->
+  <appender name="ALL_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${contextName}/${allLogFilePath}/${month}/${allLogFileName}.log</file>
+    <!-- 按时间每天生成一个日志，只保留最近60天的 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>
+        ${logHome}/${contextName}/${allLogFilePath}/${month}/${allLogFileName}_%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${commonPattern}</pattern>
+    </encoder>
+  </appender>
+  <!-- rollingFile,业务日志 -->
+  <appender name="BUSINESS_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${contextName}/${businessLogFilePath}/${month}/${businessLogFileName}.log
+    </file>
+    <!-- ThresholdFilter,记录大于等于DEBUG级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>
+        ${logHome}/${contextName}/${businessLogFilePath}/${month}/${businessLogFileName}_%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${commonPattern}</pattern>
+    </encoder>
+  </appender>
+  <!-- rollingFile,SQL日志 -->
+  <appender name="SQL_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${contextName}/${sqlLogFilePath}/${month}/${sqlLogFileName}.log
+    </file>
+    <!-- ThresholdFilter,记录大于等于DEBUG级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>
+        ${logHome}/${contextName}/${sqlLogFilePath}/${month}/${sqlLogFileName}_%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${commonPattern}</pattern>
+    </encoder>
+  </appender>
+  <!-- rollingFile,错误日志 -->
+  <appender name="ERROR_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${contextName}/${errorLogFilePath}/${errorLogFileName}.log</file>
+    <!-- LevelFilter,只记录ERROR级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>
+        ${logHome}/${contextName}/${errorLogFilePath}/${month}/${errorLogFileName}_%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${commonPattern}</pattern>
+    </encoder>
+  </appender>
+  <!-- rollingFile,aop日志 -->
+  <appender name="AOP_LOG_FILE"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logHome}/${contextName}/${aopLogFilePath}/${aopLogFileName}.log</file>
+    <!-- ThresholdFilter,记录大于等于DEBUG级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>
+        ${logHome}/${contextName}/${aopLogFilePath}/${month}/${aopLogFileName}_%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${commonPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <!--// logger定义 //-->
+  <!-- TRACE < DEBUG < INFO <  WARN < ERROR -->
+
+  <!-- 业务日志logger -->
+  <logger name="cn.sevenleave.xmlconfig" level="INFO" additivity="true">
+    <appender-ref ref="BUSINESS_LOG_FILE" />
+  </logger>
+  <!-- aop日志logger -->
+  <logger name="aopLogger" level="INFO" additivity="true">
+    <appender-ref ref="AOP_LOG_FILE" />
+  </logger>
+
+  <!-- SQL执行语句logger，开发环境下开启，生产环境关闭 -->
+  <!-- 关闭其余的,详细可参考文档 -->
+  <logger name="jdbc" level="OFF" additivity="false"/>
+  <!-- sql执行语句及用时 -->
+  <logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="SQL_LOG_FILE"/>
+  </logger>
+
+
+  <!-- 根logger -->
+  <!-- 所有的logger都会默认关联到根logger -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="ALL_LOG_FILE" />
+    <appender-ref ref="ERROR_LOG_FILE" />
+  </root>
+
+</configuration>
