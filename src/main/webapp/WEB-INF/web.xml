@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+  <display-name>xmlconfig</display-name>
+
+  <!-- logback配置 -->
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>
+    <!-- 环境切换 -->
+    <param-value>classpath:entry/dev/logback.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+  </listener>
+  
+  <!-- spring配置 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <!-- 环境切换，读取spring配置文件，启动spring -->
+    <param-value>classpath:entry/dev/spring-entry.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!-- spring-mvc配置 -->
+  <servlet>
+    <servlet-name>spring-mvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <!-- 环境切换 -->
+      <param-value>classpath:entry/dev/spring-mvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+    <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spring-mvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!-- druid连接池监控 -->
+  <servlet>
+    <servlet-name>DruidStatView</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DruidStatView</servlet-name>
+    <url-pattern>/admin/druid/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- servlet编码过滤器 -->
+  <filter>
+    <filter-name>characterEncoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>characterEncoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- 防止XSS跨站脚本攻击 -->
+  <context-param>
+    <param-name>defaultHtmlEscape</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  <!-- session超时为15分钟 -->
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <!--// 系统错误页面设置 //-->
+  <!-- 403-forbidden -->
+  <error-page>
+    <error-code>403</error-code>
+    <location>/WEB-INF/views/page/errorpages/403.jsp</location>
+  </error-page>
+  <!-- 404-not found -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/views/page/errorpages/404.jsp</location>
+  </error-page>
+  <!-- 500-internal server error -->
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/views/page/errorpages/500.jsp</location>
+  </error-page>
+  <!-- Exception error -->
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/WEB-INF/views/page/errorpages/error.jsp</location>
+  </error-page>
+
+
+</web-app>

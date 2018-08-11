@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <!-- 加载属性文件，根据环境来切换 -->
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:entry/dev/spring.properties</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- 自动扫描controller包下的bean,aspect和advice这2个日后讨论 -->
+  <context:component-scan
+          base-package="cn.sevenleave.xmlconfig.**.controller, cn.sevenleave.xmlconfig.system.aspect"/>
+  <!-- 启用controller注解支持 -->
+  <mvc:annotation-driven/>
+
+  <!-- 开启aop注解支持,cglib -->
+  <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+  <!-- 当在web.xml中DispatcherServlet使用<url-pattern>/</url-pattern>映射时，能映射资源 -->
+  <mvc:default-servlet-handler/>
+
+  <!-- 将视图名映射为URL文件 -->
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    <property name="prefix" value="/WEB-INF/views/page/"/>
+    <property name="suffix" value=".jsp"/>
+  </bean>
+
+  <!-- 静态资源路径映射 -->
+  <mvc:resources mapping="/css/**" location="/WEB-INF/views/css/" cache-period="0"/>
+  <mvc:resources mapping="/font/**" location="/WEB-INF/views/font/" cache-period="0"/>
+  <mvc:resources mapping="/js/**" location="/WEB-INF/views/js/" cache-period="0"/>
+  <mvc:resources mapping="/img/**" location="/WEB-INF/views/img/" cache-period="0"/>
+  <mvc:resources mapping="/**/*.html" location="/WEB-INF/views/page/" cache-period="0"/>
+
+  <!-- 统一全局异常处理视图 (todo:目前好像没用上） -->
+  <bean id="handleExceptionResolver" class="cn.sevenleave.xmlconfig.utils.exception.GlobalExceptionHandler"></bean>
+
+</beans>
