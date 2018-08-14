@@ -32,7 +32,12 @@
     <property name="maxOpenPreparedStatements" value="20"/>
   </bean>
 
-  <!-- mybatis，通用sqlSessionFactory配置 -->
+  <!-- SqlSessionFactory（service层可以直接注入使用） -->
+  <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+    <constructor-arg index="0" ref="sqlSessionFactory"/>
+  </bean>
+
+  <!-- SqlSessionFactory -->
   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     <!-- 选择dataSource -->
     <property name="dataSource" ref="defaultDataSource"/>
@@ -65,28 +70,23 @@
     </property>
   </bean>
 
-  <!-- 通用session模板，供service层引用来使用 -->
-  <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
-    <constructor-arg index="0" ref="sqlSessionFactory"/>
-    <!-- 如果使用批处理BATCH，则导致获取insert,update返回的行数失败;批处理的场景：如foreach获取对象，将其循环插入到数据库中 -->
-    <!--<constructor-arg index="1" type="org.apache.ibatis.session.ExecutorType" value="BATCH"/>-->
-    <constructor-arg index="1" type="org.apache.ibatis.session.ExecutorType" value="SIMPLE"/>
-  </bean>
-
   <!-- 通用mapper包扫描 -->
   <!-- 注意！！这里使用的是tk.mybatis.*，如果不需要用通用mapper的话，应该改成org.mybatis.* -->
   <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="cn.sevenleave.xmlconfig.**.mapper"/>
-    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
     <property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"/>
   </bean>
 
-  <!-- 通用事务管理器：可以使用声明式事务管理 -->
+  <!-- 事务模板（service层可以直接注入，显示进行事务编程） -->
+  <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+    <property name="transactionManager" ref="transactionManager"/>
+  </bean>
+  <!-- 开启spring的事务处理（可以使用声明式事务管理） -->
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     <property name="dataSource" ref="defaultDataSource"/>
   </bean>
-  <!-- 启用annotation定义事务 -->
+  <!-- 启用annotation注解事务 -->
   <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-
 
 </beans>
