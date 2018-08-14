@@ -38,6 +38,8 @@
     <!--// utils-relative //-->
     <jackson.version>2.9.6</jackson.version>
     <junit.version>4.12</junit.version>
+    <!--// shiro-relative //-->
+    <shiro.version>1.4.0</shiro.version>
   </properties>
 
   <dependencies>
@@ -145,7 +147,6 @@
       <version>${mybatis-generator.version}</version>
     </dependency>
 
-
     <!--// jsp-relative //-->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -215,7 +216,21 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!--// shiro-relative //-->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>${shiro.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <version>${shiro.version}</version>
+    </dependency>
+
   </dependencies>
+
 
   <!-- 构建设置 -->
   <build>
