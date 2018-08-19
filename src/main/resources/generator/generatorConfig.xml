@@ -5,15 +5,10 @@
 
 <generatorConfiguration>
 
+  <!-- 引入配置文件后，context标签下的property标签就无效了 -->
+  <properties resource="generator/generatorConfig.properties"/>
+
   <context id="mysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
-    <!-- 生成路径 -->
-    <property name="targetProject" value="src/main/java"/>
-    <!-- 模块包名 -->
-    <property name="targetPackage" value="cn.sevenleave.xmlconfig.cache.record"/>
-    <!-- 数据库的表名 -->
-    <property name="tableName" value="cache_record"/>
-    <!-- mysql和pgsql的schema含义是不一样的 -->
-    <property name="schema" value="lost2found"/>
 
     <!-- 使用common-mapper plugin增加的配置 -->
     <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
@@ -32,10 +27,10 @@
     </commentGenerator>
 
     <!-- 数据库连接 -->
-    <jdbcConnection driverClass="${jdbc.driverClass}"
-                    connectionURL="${jdbc.url}"
-                    userId="${jdbc.username}"
-                    password="${jdbc.password}"/>
+    <jdbcConnection driverClass="${dev.jdbc.driverClass}"
+                    connectionURL="${dev.jdbc.url}"
+                    userId="${dev.jdbc.username}"
+                    password="${dev.jdbc.password}"/>
 
     <javaTypeResolver>
       <property name="forceBigDecimals" value="false"/>

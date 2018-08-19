@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-  <!-- 加载属性文件，根据环境来切换 -->
+  <!-- 加载属性文件 -->
   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="locations">
       <list>
@@ -23,13 +23,18 @@
     </property>
   </bean>
 
-  <!-- 自动扫描controller包下的bean,aspect和advice这2个日后讨论 -->
-  <context:component-scan
-          base-package="cn.sevenleave.xmlconfig.**.controller, cn.sevenleave.xmlconfig.system.aspect"/>
+  <!-- 1.开启对注解的自动扫描,关闭默认扫描类型 -->
+  <!-- 2.仅扫描@Controller与@ControllerAdvice的controller组件 -->
+  <context:component-scan base-package="cn.sevenleave.xmlconfig.**.controller" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+  </context:component-scan>
+
   <!-- 启用controller注解支持 -->
   <mvc:annotation-driven/>
 
-  <!-- 开启aop注解支持,cglib -->
+  <!-- 开启aop注解支持,true代表修改类，是cglib -->
+  <!-- 因为aop与controller一起使用，所以要在springmvc中开启aop注解，使得在同一上下文 -->
   <aop:aspectj-autoproxy proxy-target-class="true"/>
 
   <!-- 当在web.xml中DispatcherServlet使用<url-pattern>/</url-pattern>映射时，能映射资源 -->

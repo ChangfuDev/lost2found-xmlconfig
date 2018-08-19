@@ -6,21 +6,11 @@
 
   <display-name>xmlconfig</display-name>
 
-  <!-- logback配置 -->
-  <context-param>
-    <param-name>logbackConfigLocation</param-name>
-    <!-- 环境切换 -->
-    <param-value>classpath:entry/dev/logback.xml</param-value>
-  </context-param>
-  <listener>
-    <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
-  </listener>
-  
   <!-- spring配置 -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <!-- 环境切换，读取spring配置文件，启动spring -->
-    <param-value>classpath:entry/dev/spring-entry.xml</param-value>
+    <param-value>classpath:entry/dev/spring.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -42,6 +32,16 @@
     <servlet-name>spring-mvc</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+
+  <!-- logback配置 -->
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>
+    <!-- 环境切换 -->
+    <param-value>classpath:entry/dev/logback.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+  </listener>
 
   <!-- druid连接池监控 -->
   <servlet>
@@ -102,6 +102,5 @@
     <exception-type>java.lang.Exception</exception-type>
     <location>/WEB-INF/views/page/errorpages/error.jsp</location>
   </error-page>
-
 
 </web-app>

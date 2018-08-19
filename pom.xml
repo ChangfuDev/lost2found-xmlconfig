@@ -257,7 +257,7 @@
           <version>${mybatis-generator.version}</version>
           <configuration>
             <configurationFile>
-              src/main/resources/config/generatorConfig.xml
+              src/main/resources/generator/generatorConfig.xml
             </configurationFile>
             <overwrite>false</overwrite>
             <verbose>true</verbose>
