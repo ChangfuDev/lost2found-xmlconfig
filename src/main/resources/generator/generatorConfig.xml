@@ -26,7 +26,7 @@
       <property name="addRemarkComments" value="true"/>
     </commentGenerator>
 
-    <!-- 数据库连接 -->
+    <!-- 数据库连接信息,环境切换 -->
     <jdbcConnection driverClass="${dev.jdbc.driverClass}"
                     connectionURL="${dev.jdbc.url}"
                     userId="${dev.jdbc.username}"

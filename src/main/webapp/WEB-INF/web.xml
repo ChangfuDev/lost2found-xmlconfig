@@ -9,7 +9,7 @@
   <!-- spring配置 -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <!-- 环境切换，读取spring配置文件，启动spring -->
+    <!-- 环境切换 -->
     <param-value>classpath:entry/dev/spring.xml</param-value>
   </context-param>
   <listener>
@@ -50,7 +50,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DruidStatView</servlet-name>
-    <url-pattern>/admin/druid/*</url-pattern>
+    <url-pattern>/druid/*</url-pattern>
   </servlet-mapping>
 
   <!-- servlet编码过滤器 -->
@@ -78,10 +78,15 @@
   </context-param>
   <!-- session超时为15分钟 -->
   <session-config>
-    <session-timeout>30</session-timeout>
+    <session-timeout>15</session-timeout>
   </session-config>
 
   <!--// 系统错误页面设置 //-->
+  <!-- 400-bad request -->
+  <error-page>
+    <error-code>400</error-code>
+    <location>/WEB-INF/views/page/errorpages/400.jsp</location>
+  </error-page>
   <!-- 403-forbidden -->
   <error-page>
     <error-code>403</error-code>

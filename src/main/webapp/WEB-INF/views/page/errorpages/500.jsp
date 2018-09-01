@@ -191,8 +191,9 @@
 <body>
 <div class="empty valign" style="height:100vh">
 	<div class="centered">
-		<p class="empty-title h1">500 Error</p>
-		(:服务器内部运行出错, Internal server error:)
+		<p class="empty-title h1">Origin Server Errorr</p>
+		<p class="empty-subtitle">Internal server error</p>
+		<p class="empty-title h4">服务器内部运行出错</p>
 		<div class="divider"></div>
 		<footer class="section section-footer">
 			<div id="copyright" class="grid-footer container grid-lg">©

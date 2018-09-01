@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: Sevenleaf
   Date: 2018-07-31
-  Time: 9:41
+  Time: 9:38
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,7 +11,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>NullPointer Exception Error | ibard</title>
+	<title>400 - Bad Request | ibard</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<style>
@@ -72,11 +72,15 @@
 			color: #4240d4;
 			text-decoration: underline
 		}
-		.h1 {
+		.h1,
+		.h4 {
 			font-weight: 500
 		}
 		.h1 {
 			font-size: 2rem
+		}
+		.h4 {
+			font-size: 1.2rem
 		}
 		p {
 			margin: 0 0 1rem
@@ -91,19 +95,6 @@
 		.form-input:not(:placeholder-shown):invalid:focus {
 			box-shadow: 0 0 0 .1rem rgba(232, 86, 0, .2)
 		}
-		.label {
-			background: #f0f1f4;
-			border-radius: .1rem;
-			color: #5b657a;
-			display: inline-block;
-			line-height: 1.2;
-			padding: .1rem .15rem
-		}
-		.label.label-rounded {
-			border-radius: 5rem;
-			padding-left: .4rem;
-			padding-right: .4rem
-		}
 		.container {
 			margin-left: auto;
 			margin-right: auto;
@@ -114,9 +105,6 @@
 		.container.grid-lg {
 			max-width: 976px
 		}
-		.container.grid-sm {
-			max-width: 616px
-		}
 		.empty {
 			background: #f8f9fa;
 			border-radius: .1rem;
@@ -124,6 +112,7 @@
 			padding: 3.2rem 1.6rem;
 			text-align: center
 		}
+		.empty .empty-subtitle,
 		.empty .empty-title {
 			margin: .4rem auto
 		}
@@ -172,28 +161,15 @@
 		.section-footer a {
 			color: #667189;
 		}
-		.cferror_details {
-			text-align: center;
-		}
-		.cf-error-details h1 {
-			font-size: 1.2rem!important
-		}
-		.cf-error-details p {
-			font-size: .7rem!important
-		}
-		.cf-error-details li {
-			font-size: .65rem!important;
-			list-style: none;
-		}
 	</style>
 </head>
 
 <body>
 <div class="empty valign" style="height:100vh">
 	<div class="centered">
-		<p class="empty-title h1">NullPointerException Error</p>
-		<p class="empty-subtitle">Exception happened</p>
-		<p class="empty-title h4">服务器内部运行出错</p>
+		<p class="empty-title h1">400 Bad Request</p>
+		<p class="empty-subtitle">Some required parameters are not present</p>
+		<p class="empty-title h4">您的请求里缺少必要的参数</p>
 		<div class="divider"></div>
 		<footer class="section section-footer">
 			<div id="copyright" class="grid-footer container grid-lg">©

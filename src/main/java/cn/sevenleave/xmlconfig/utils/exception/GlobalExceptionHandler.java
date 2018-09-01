@@ -63,7 +63,7 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver {
             // 如果是其他未知异常
             Map<String, Object> model = new HashMap<>();
             model.put("exception", e);
-            return new ModelAndView("errorpages/error", model);
+            return new ModelAndView("/errorpages/error", model);
         }
     }
 }
