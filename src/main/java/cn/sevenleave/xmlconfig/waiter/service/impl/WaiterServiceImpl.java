@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WaiterServiceImpl implements IWaiterService {
 
-    private static final Logger logger = LoggerFactory.getLogger(WaiterServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaiterServiceImpl.class);
 
     @Autowired
     private WaiterInfoMapper waiterInfoMapper;

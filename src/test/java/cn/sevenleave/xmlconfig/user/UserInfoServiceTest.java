@@ -16,7 +16,7 @@ import org.springframework.test.annotation.Rollback;
  */
 public class UserInfoServiceTest extends SpringTestBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserInfoServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoServiceTest.class);
 
     @Autowired
     private IUserInfoService userInfoService;

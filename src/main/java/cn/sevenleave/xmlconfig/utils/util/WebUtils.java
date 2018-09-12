@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class WebUtils {
     
-    private static final Logger logger = LoggerFactory.getLogger(WebUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebUtils.class);
     
     /**
      * 判断是否为ajax请求

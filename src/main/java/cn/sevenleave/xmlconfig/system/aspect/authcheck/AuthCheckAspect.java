@@ -26,8 +26,8 @@ import java.time.LocalDateTime;
 @Component
 public class AuthCheckAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthCheckAspect.class);
-    private static final Logger aopLogger = LoggerFactory.getLogger("aopLogger");
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthCheckAspect.class);
+    private static final Logger AOP_LOGGER = LoggerFactory.getLogger("aopLogger");
 
     //-- 通过切点来选择连接点，详见手册 --
     // 1.限定匹配带有指定注解的连接点
@@ -61,7 +61,7 @@ public class AuthCheckAspect {
             sb.append(target + " -- ");
             sb.append(methodName + " -- ");
             sb.append("403,无权限执行此操作！");
-            aopLogger.error(sb.toString());
+            AOP_LOGGER.error(sb.toString());
             return JsonResult.fail("403", "无权限执行此操作！");
         } else {
             // 验证通过，继续执行被织入的方法

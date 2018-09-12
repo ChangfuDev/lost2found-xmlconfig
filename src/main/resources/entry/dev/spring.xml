@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <!-- spring父容器配置 -->
+  <!--// spring父容器配置 //-->
 
   <!-- 1.开启对注解的自动扫描,扫描spring组件 -->
   <!-- 2.不扫描@Controller与@ControllerAdvice的controller组件 -->
@@ -18,5 +18,8 @@
 
   <!-- 引入mybatis数据库配置 -->
   <import resource="classpath:entry/dev/datasource-lost2found.xml"/>
+
+  <!-- 引入redis配置 -->
+  <import resource="classpath:entry/dev/redis.xml"/>
 
 </beans>

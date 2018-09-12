@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
  */
 public class WaiterControllerTest extends SpringMvcTestBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(WaiterControllerTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaiterControllerTest.class);
 
     private MockMvc mockMvc;
 

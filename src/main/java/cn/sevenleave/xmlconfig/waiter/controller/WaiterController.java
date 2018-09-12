@@ -2,6 +2,7 @@ package cn.sevenleave.xmlconfig.waiter.controller;
 
 import cn.sevenleave.xmlconfig.cache.record.model.CacheRecord;
 import cn.sevenleave.xmlconfig.cache.record.service.ICacheRecordService;
+import cn.sevenleave.xmlconfig.system.aspect.redis.VisitCount;
 import cn.sevenleave.xmlconfig.utils.model.PageRequest;
 import cn.sevenleave.xmlconfig.utils.model.PageResponse;
 import cn.sevenleave.xmlconfig.waiter.service.IWaiterService;
@@ -23,7 +24,7 @@ import java.util.List;
 @RequestMapping("/waiter")
 public class WaiterController {
 
-    private static final Logger logger = LoggerFactory.getLogger(WaiterController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaiterController.class);
 
     @Autowired
     private IWaiterService waiterService;
@@ -37,6 +38,7 @@ public class WaiterController {
      * @param pageRequest
      * @return
      */
+    @VisitCount  // aop: redis计数
     @RequestMapping(value = "/cacherecords", method = RequestMethod.GET)
     @ResponseBody
     public PageResponse<CacheRecord> getCacheRecords(PageRequest pageRequest) {

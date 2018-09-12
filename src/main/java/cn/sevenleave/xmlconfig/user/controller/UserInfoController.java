@@ -25,8 +25,8 @@ import java.time.LocalDateTime;
 @RequestMapping("/user")
 public class UserInfoController {
     
-    private static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
-    private static final Logger aopLogger = LoggerFactory.getLogger("aopLogger");
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoController.class);
+    private static final Logger AOP_LOGGER = LoggerFactory.getLogger("aopLogger");
     
     @Autowired
     private IUserInfoService userInfoService;
@@ -39,7 +39,7 @@ public class UserInfoController {
     @Log(name = "我的Log-aspect")
     @RequestMapping(value = "/toRegister", method = RequestMethod.GET)
     public String toRegister() throws Exception {
-        aopLogger.debug(LocalDateTime.now().toString() + " - " + "/toRegister");
+        AOP_LOGGER.debug(LocalDateTime.now().toString() + " - " + "/toRegister");
         return "user/registerUser";
     }
     

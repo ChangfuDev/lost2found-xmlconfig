@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminServiceImpl implements IAdminService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminServiceImpl.class);
 
     @Autowired
     private WaiterInfoMapper waiterInfoMapper;
