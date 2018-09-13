@@ -1,4 +1,4 @@
-package cn.sevenleave.xmlconfig.system.aspect.redis;
+package cn.sevenleave.xmlconfig.system.aspect.redis.count;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -34,6 +34,7 @@
 
     <!-- 1.开启aop注解支持,true代表代理是修改类，是cglib -->
     <!-- 2.因为aop与controller一起使用，所以要在spring-mvc中开启aop注解，使得在同一上下文 -->
+    <!-- 3.spring-mvc中开启的aop只能对controller中的方法有效 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 1.将url路径映射为对应文件 -->

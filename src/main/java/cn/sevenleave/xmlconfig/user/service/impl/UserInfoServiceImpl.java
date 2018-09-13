@@ -8,9 +8,6 @@ import cn.sevenleave.xmlconfig.utils.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -19,7 +16,6 @@ import tk.mybatis.mapper.entity.Example;
  * @date 2018-07-29 14:27
  */
 @Service
-@CacheConfig(cacheNames = "redisCache")
 public class UserInfoServiceImpl implements IUserInfoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoServiceImpl.class);
@@ -34,7 +30,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
      * @return
      */
     @Override
-    @CacheEvict(key = "#root.target.redisUserInfoServiceImplKeyName()", allEntries = true)
     public int addUser(UserInfo userInfo) throws Exception {
         userInfo.setUuid(StringUtils.uuid());
         // 密码加盐hash
@@ -51,7 +46,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
      * @throws Exception
      */
     @Override
-    @Cacheable(key = "#root.target.redisUserInfoServiceImplKeyName()")
     public boolean isUserExisted(UserInfo userInfo) throws Exception {
         // example查询
         Example example = new Example(UserInfo.class);
@@ -64,15 +58,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
             // 判断密码是否正确
             return PasswordStorage.verifyPassword(userInfo.getUserPsd(), user.getUserPsd());
         }
-    }
-
-    /**
-     * 描述：这个方法用于给redis的缓存提供自定义的key值
-     *
-     * @return
-     */
-    public String redisUserInfoServiceImplKeyName() {
-        return "UserInfoServiceImpl-key";
     }
 
 }

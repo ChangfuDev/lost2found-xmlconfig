@@ -1,4 +1,4 @@
-package cn.sevenleave.xmlconfig.system.aspect.redis;
+package cn.sevenleave.xmlconfig.system.aspect.redis.count;
 
 import cn.sevenleave.xmlconfig.utils.redis.RedisUtil;
 import org.aspectj.lang.JoinPoint;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * 描述：description
+ * 描述：用来对访问缓存记录进行计数
  *
  * @author SevenLeave
  * @date 2018-09-11
@@ -28,7 +28,7 @@ public class VisitCountAspect {
     /**
      * 描述：定义可重用的切点
      */
-    @Pointcut("@annotation(cn.sevenleave.xmlconfig.system.aspect.redis.VisitCount)")
+    @Pointcut("@annotation(cn.sevenleave.xmlconfig.system.aspect.redis.count.VisitCount)")
     public void countAspect() {
     }
 
@@ -39,7 +39,7 @@ public class VisitCountAspect {
      */
     @After(value = "countAspect()")
     public void afterVisited(JoinPoint joinpoint) {
-        String key = "visitCount";
+        String key = "cache_record:info:visit";
         boolean exist = redisUtil.hasKey(key);
         if (exist) {
             // key存在,自增
@@ -48,7 +48,7 @@ public class VisitCountAspect {
             // key不存在,初始化
             redisUtil.setIfAbsent(key, "1");
         }
-        LOGGER.info("visitAspect exec");
+        LOGGER.info("redis-console: cache_record:info:visit(++) ");
     }
 
 }

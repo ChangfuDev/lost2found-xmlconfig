@@ -2,7 +2,6 @@ package cn.sevenleave.xmlconfig.waiter.controller;
 
 import cn.sevenleave.xmlconfig.cache.record.model.CacheRecord;
 import cn.sevenleave.xmlconfig.cache.record.service.ICacheRecordService;
-import cn.sevenleave.xmlconfig.system.aspect.redis.VisitCount;
 import cn.sevenleave.xmlconfig.utils.model.PageRequest;
 import cn.sevenleave.xmlconfig.utils.model.PageResponse;
 import cn.sevenleave.xmlconfig.waiter.service.IWaiterService;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
+ * 描述： wait_info 对应的controller类
+ *
  * @author SevenLeave
  * @date 2018-07-31 10:55
  */
@@ -38,7 +39,6 @@ public class WaiterController {
      * @param pageRequest
      * @return
      */
-    @VisitCount  // aop: redis计数
     @RequestMapping(value = "/cacherecords", method = RequestMethod.GET)
     @ResponseBody
     public PageResponse<CacheRecord> getCacheRecords(PageRequest pageRequest) {

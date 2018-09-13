@@ -43,19 +43,19 @@
     </bean>
 
     <!-- 开启redis缓存的注解支持 -->
-    <cache:annotation-driven cache-manager="cacheManager"/>
-    <!-- cacheManager -->
-    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-        <property name="caches">
-            <set>
-                <bean class="cn.sevenleave.xmlconfig.utils.redis.RedisCache">
-                    <!-- name对应的名称要在类或方法的注解中使用 -->
-                    <property name="name" value="redisCache"/>
-                    <property name="redisTemplate" ref="redisTemplate"/>
-                </bean>
-            </set>
-        </property>
-    </bean>
+    <!--<cache:annotation-driven cache-manager="cacheManager"/>-->
+    <!--&lt;!&ndash; cacheManager &ndash;&gt;-->
+    <!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">-->
+        <!--<property name="caches">-->
+            <!--<set>-->
+                <!--<bean class="cn.sevenleave.xmlconfig.utils.redis.RedisCache">-->
+                    <!--&lt;!&ndash; name对应的名称要在类或方法的注解中使用 &ndash;&gt;-->
+                    <!--<property name="name" value="redisCache"/>-->
+                    <!--<property name="redisTemplate" ref="redisTemplate"/>-->
+                <!--</bean>-->
+            <!--</set>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <!-- redisUtil的实例bean -->
     <bean id="redisUtil" class="cn.sevenleave.xmlconfig.utils.redis.RedisUtil">
