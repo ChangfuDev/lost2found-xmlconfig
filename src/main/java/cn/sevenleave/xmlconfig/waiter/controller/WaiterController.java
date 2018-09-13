@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
+ * 描述： wait_info 对应的controller类
+ *
  * @author SevenLeave
  * @date 2018-07-31 10:55
  */
@@ -23,7 +25,7 @@ import java.util.List;
 @RequestMapping("/waiter")
 public class WaiterController {
 
-    private static final Logger logger = LoggerFactory.getLogger(WaiterController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaiterController.class);
 
     @Autowired
     private IWaiterService waiterService;

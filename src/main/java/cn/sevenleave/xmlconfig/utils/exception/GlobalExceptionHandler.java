@@ -22,11 +22,11 @@ import java.util.Map;
  */
 public class GlobalExceptionHandler implements HandlerExceptionResolver {
     
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-        logger.error(e.getMessage(), e);
+        LOGGER.error(e.getMessage(), e);
         String errorCode = "";
         String errorMsg = e.getMessage();
         
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver {
                 pw.write(json);
                 pw.close();
             } catch (Exception exception) {
-                logger.error(errorMsg, exception);
+                LOGGER.error(errorMsg, exception);
             }
             
             // response正常返回或者异常被捕获，都执行不到这里

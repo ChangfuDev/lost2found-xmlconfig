@@ -25,8 +25,8 @@ public class LogAspect {
 
     ThreadLocal<Long> time = new ThreadLocal<>();
 
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
-    private static final Logger aopLogger = LoggerFactory.getLogger("aopLogger");
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
+    private static final Logger AOP_LOGGER = LoggerFactory.getLogger("aopLogger");
 
     /**
      * 描述：定义可重用的切点
@@ -64,8 +64,8 @@ public class LogAspect {
         String annotationName = method.getAnnotation(Log.class).name();
         sb.append(occurTime + " -- " + execTime + " -- " + methodName + " -- " + annotationName + " -- 被调用！");
 
-        System.out.println(sb.toString());
-        aopLogger.debug(sb.toString());
+        LOGGER.info("sb.toString() " + sb.toString());
+        AOP_LOGGER.debug(sb.toString());
     }
 
 

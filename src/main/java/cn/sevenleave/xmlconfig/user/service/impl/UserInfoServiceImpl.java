@@ -18,13 +18,14 @@ import tk.mybatis.mapper.entity.Example;
 @Service
 public class UserInfoServiceImpl implements IUserInfoService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserInfoServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoServiceImpl.class);
 
     @Autowired
     private UserInfoMapper userInfoMapper;
 
     /**
-     * 添加用户
+     * 描述：添加用户
+     *
      * @param userInfo
      * @return
      */
@@ -36,13 +37,19 @@ public class UserInfoServiceImpl implements IUserInfoService {
         int rows = userInfoMapper.insert(userInfo);
         return rows;
     }
-    
+
+    /**
+     * 描述：判断用户信息是否匹配
+     *
+     * @param userInfo
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean isUserExisted(UserInfo userInfo) throws Exception {
         // example查询
         Example example = new Example(UserInfo.class);
-        example.createCriteria()
-                .andEqualTo("userName", userInfo.getUserName());
+        example.createCriteria().andEqualTo("userName", userInfo.getUserName());
         UserInfo user = userInfoMapper.selectOneByExample(example);
         if (user == null) {
             // 用户名不存在
@@ -52,4 +59,5 @@ public class UserInfoServiceImpl implements IUserInfoService {
             return PasswordStorage.verifyPassword(userInfo.getUserPsd(), user.getUserPsd());
         }
     }
+
 }

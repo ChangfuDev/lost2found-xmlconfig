@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/cache/record")
 public class CacheRecordController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CacheRecordController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CacheRecordController.class);
 
     @Autowired
     private ICacheRecordService cacheRecordService;

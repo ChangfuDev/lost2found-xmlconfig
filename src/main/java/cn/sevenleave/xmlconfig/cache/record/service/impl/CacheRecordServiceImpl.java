@@ -3,6 +3,7 @@ package cn.sevenleave.xmlconfig.cache.record.service.impl;
 import cn.sevenleave.xmlconfig.cache.record.mapper.CacheRecordMapper;
 import cn.sevenleave.xmlconfig.cache.record.model.CacheRecord;
 import cn.sevenleave.xmlconfig.cache.record.service.ICacheRecordService;
+import cn.sevenleave.xmlconfig.system.aspect.redis.count.VisitCount;
 import cn.sevenleave.xmlconfig.utils.model.PageRequest;
 import cn.sevenleave.xmlconfig.utils.util.StringUtils;
 import com.github.pagehelper.PageHelper;
@@ -15,16 +16,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 描述：
+ *
+ * 使用redis进行缓存,用的是spring的注解缓存
+ *
  * @author SevenLeave
  * @date 2018-07-31 14:10
  */
 @Service
 public class CacheRecordServiceImpl implements ICacheRecordService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CacheRecordServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CacheRecordServiceImpl.class);
 
     @Autowired
     private CacheRecordMapper cacheRecordMapper;
+
 
     /**
      * 描述：新增失物记录到缓存表
@@ -36,7 +42,7 @@ public class CacheRecordServiceImpl implements ICacheRecordService {
     public int addCacheRecord(CacheRecord cacheRecord, String userUuid) {
         cacheRecord.setUuid(StringUtils.uuid());
         cacheRecord.setUserUuid(userUuid);
-        // 0-未处理
+        // 0表示未处理
         cacheRecord.setStatus("0");
         return cacheRecordMapper.insertSelective(cacheRecord);
     }
@@ -48,10 +54,13 @@ public class CacheRecordServiceImpl implements ICacheRecordService {
      * @param request
      * @return
      */
+    @VisitCount  // aop: redis计数
     @Override
     public List<CacheRecord> getCacheRecordList(PageRequest request) {
         Map<String, Object> paramsMap = request.getParamsMap();
+        // 分页
         PageHelper.startPage(request.getPageNum(), request.getPageSize());
         return cacheRecordMapper.selectCacheRecordList(paramsMap);
     }
+
 }
