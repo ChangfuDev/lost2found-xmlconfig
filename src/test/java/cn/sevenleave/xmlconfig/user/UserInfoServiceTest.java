@@ -3,7 +3,7 @@ package cn.sevenleave.xmlconfig.user;
 import base.SpringTestBase;
 import cn.sevenleave.xmlconfig.user.model.UserInfo;
 import cn.sevenleave.xmlconfig.user.service.IUserInfoService;
-import cn.sevenleave.xmlconfig.utils.util.StringUtils;
+import cn.sevenleave.xmlconfig.support.utils.StringUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

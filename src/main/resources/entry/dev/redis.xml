@@ -48,7 +48,7 @@
     <!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">-->
         <!--<property name="caches">-->
             <!--<set>-->
-                <!--<bean class="cn.sevenleave.xmlconfig.utils.redis.RedisCache">-->
+                <!--<bean class="RedisCache">-->
                     <!--&lt;!&ndash; name对应的名称要在类或方法的注解中使用 &ndash;&gt;-->
                     <!--<property name="name" value="redisCache"/>-->
                     <!--<property name="redisTemplate" ref="redisTemplate"/>-->
@@ -58,7 +58,7 @@
     <!--</bean>-->
 
     <!-- redisUtil的实例bean -->
-    <bean id="redisUtil" class="cn.sevenleave.xmlconfig.utils.redis.RedisUtil">
+    <bean id="redisUtil" class="cn.sevenleave.xmlconfig.support.redis.RedisUtil">
         <property name="redisTemplate" ref="redisTemplate"/>
     </bean>
 

@@ -64,6 +64,6 @@
     <!--<cache:annotation-driven />-->
 
     <!-- 统一全局异常处理视图 (todo:目前没用上） -->
-    <bean id="handleExceptionResolver" class="cn.sevenleave.xmlconfig.utils.exception.GlobalExceptionHandler"></bean>
+    <bean id="handleExceptionResolver" class="cn.sevenleave.xmlconfig.support.exception.GlobalExceptionHandler"></bean>
 
 </beans>
