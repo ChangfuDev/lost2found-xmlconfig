@@ -3,7 +3,6 @@ package cn.sevenleave.xmlconfig.business.user.controller;
 import cn.sevenleave.xmlconfig.business.lost.cache.record.model.LostCacheRecord;
 import cn.sevenleave.xmlconfig.business.lost.cache.record.service.ILostCacheRecordService;
 import cn.sevenleave.xmlconfig.business.lost.release.record.dto.LostReleaseRecordDto;
-import cn.sevenleave.xmlconfig.business.lost.release.record.model.LostReleaseRecord;
 import cn.sevenleave.xmlconfig.business.lost.release.record.service.ILostReleaseRecordService;
 import cn.sevenleave.xmlconfig.business.user.model.SysUser;
 import cn.sevenleave.xmlconfig.business.user.service.ISysUserService;
@@ -12,6 +11,7 @@ import cn.sevenleave.xmlconfig.support.constants.LostReleaseRecordStatusEnum;
 import cn.sevenleave.xmlconfig.support.model.JsonResult;
 import cn.sevenleave.xmlconfig.support.model.PageRequest;
 import cn.sevenleave.xmlconfig.support.model.PageResponse;
+import cn.sevenleave.xmlconfig.support.model.ServiceMessage;
 import cn.sevenleave.xmlconfig.support.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +103,7 @@ public class SysUserController {
     @RequestMapping(value = "/record/release/query", method = RequestMethod.POST)
     @ResponseBody
     public PageResponse<LostReleaseRecordDto> queryRelease(@RequestBody PageRequest pageRequest) throws Exception {
-        // 设置用户只能查看正在发布中的正式招领记录
+        // 用户只能查看发布中的（PUBLISHING）正式招领记录,设置status值
         pageRequest.getParamMap().put("status", LostReleaseRecordStatusEnum.STATUS_PUBLISHING);
         List<LostReleaseRecordDto> lostReleaseRecordDtoList = lostReleaseRecordService.getLostReleaseRecordDtoList(pageRequest);
         PageResponse<LostReleaseRecordDto> lostReleaseRecordPageResponse = new PageResponse<>(lostReleaseRecordDtoList);
@@ -121,8 +121,10 @@ public class SysUserController {
     @RequestMapping(value = "/record/cache/issue", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult issueCache(@RequestBody LostCacheRecord lostCacheRecord, @RequestParam String userUuid) throws Exception {
+        // 封装用户提交的申请
         lostCacheRecord.setUuid(StringUtils.uuid());
         lostCacheRecord.setUserUuid(userUuid);
+        // 申请的status初始化为未处理（UNPROCESSED）
         lostCacheRecord.setStatus(LostCacheRecordStatusEnum.STATUS_UNPROCESSED.getStatus());
         int rows = lostCacheRecordService.addLostCacheRecord(lostCacheRecord);
         if (rows == 1) {
@@ -156,23 +158,15 @@ public class SysUserController {
     @RequestMapping(value = "/record/release/request/offline", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult offlineRelease(@RequestParam String releaseRecordUuid) throws Exception {
-        // 1.查询自己提交的已经正式发布的招领记录,并把正式招领信息的状态修改为申请下架中
-        LostReleaseRecord lostReleaseRecord = lostReleaseRecordService.getLostReleaseRecordByUuid(releaseRecordUuid);
-        lostReleaseRecord.setStatus(LostReleaseRecordStatusEnum.STATUS_REQUEST_OFFLINE.getStatus());
-        int modifyReleaseRows = lostReleaseRecordService.modifyLostReleaseRecord(lostReleaseRecord);
-        // 2.查询招领记录对应的缓存提交记录,并修改对应的状态
-        LostCacheRecord lostCacheRecord = lostCacheRecordService.getLostCacheRecordByUuid(lostReleaseRecord.getCacheRecordUuid());
-        lostCacheRecord.setStatus(LostCacheRecordStatusEnum.STATUS_REQUEST_OFFLINE.getStatus());
-        int modifyCacheRows = lostCacheRecordService.modifyLostCacheRecord(lostCacheRecord);
-        // 3.判断
-        if (modifyReleaseRows == 1 && modifyCacheRows == 1) {
-            // 申请成功
-            return JsonResult.success("申请提交成功！");
+        // 1.处理
+        ServiceMessage serviceMessage = sysUserService.requestReleaseRecordOffline(releaseRecordUuid);
+        // 2.判断并返回
+        boolean success = serviceMessage.isSuccess();
+        if (success) {
+            return JsonResult.success(serviceMessage.getMessage());
         } else {
-            // 申请失败,内部出错
-            return JsonResult.fail("申请提交处理失败！");
+            return JsonResult.fail(serviceMessage.getMessage());
         }
     }
-
 
 }

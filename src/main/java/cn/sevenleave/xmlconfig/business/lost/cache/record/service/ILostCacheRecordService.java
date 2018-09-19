@@ -2,6 +2,8 @@ package cn.sevenleave.xmlconfig.business.lost.cache.record.service;
 
 import cn.sevenleave.xmlconfig.business.lost.cache.record.model.LostCacheRecord;
 import cn.sevenleave.xmlconfig.support.model.PageRequest;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public interface ILostCacheRecordService {
      * @param lostCacheRecord
      * @return
      * @throws Exception
+     * @warning 这里不能使用@CachePut来加入redis缓存,因为它的返回值不是LostCacheRecord
      */
     int addLostCacheRecord(LostCacheRecord lostCacheRecord) throws Exception;
 
@@ -38,6 +41,7 @@ public interface ILostCacheRecordService {
      * @return
      * @throws Exception
      */
+    @CacheEvict(value = "lostCacheRecord", key = "#lostCacheRecord.uuid")
     int modifyLostCacheRecord(LostCacheRecord lostCacheRecord) throws Exception;
 
     /**
@@ -47,6 +51,7 @@ public interface ILostCacheRecordService {
      * @return
      * @throws Exception
      */
+    @Cacheable(value = "lostCacheRecord", key = "#uuid")
     LostCacheRecord getLostCacheRecordByUuid(String uuid) throws Exception;
 
 }

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
  * @date 2018-09-16
  */
 @Service
-public class SysOwnerService implements ISysOwnerService {
+public class SysOwnerServiceImpl implements ISysOwnerService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysOwnerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysOwnerServiceImpl.class);
     @Autowired
     private SysOwnerMapper sysOwnerMapper;
 

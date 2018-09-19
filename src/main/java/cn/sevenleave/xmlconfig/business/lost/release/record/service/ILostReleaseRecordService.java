@@ -3,6 +3,8 @@ package cn.sevenleave.xmlconfig.business.lost.release.record.service;
 import cn.sevenleave.xmlconfig.business.lost.release.record.dto.LostReleaseRecordDto;
 import cn.sevenleave.xmlconfig.business.lost.release.record.model.LostReleaseRecord;
 import cn.sevenleave.xmlconfig.support.model.PageRequest;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public interface ILostReleaseRecordService {
      * @return
      * @throws Exception
      */
+    @CacheEvict(value = "lostReleaseRecord", key = "#lostReleaseRecord.uuid")
     int modifyLostReleaseRecord(LostReleaseRecord lostReleaseRecord) throws Exception;
 
     /**
@@ -48,6 +51,7 @@ public interface ILostReleaseRecordService {
      * @return
      * @throws Exception
      */
+    @Cacheable(value = "lostReleaseRecord", key = "#uuid")
     LostReleaseRecord getLostReleaseRecordByUuid(String uuid) throws Exception;
 
 }

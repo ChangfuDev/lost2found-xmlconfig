@@ -60,10 +60,10 @@
         <property name="maxUploadSize" value="-1"/>
     </bean>
 
-    <!-- 开启缓存 -->
-    <!--<cache:annotation-driven />-->
+    <!-- 开启mvc的注解缓存,一般不用,因为不会在controller上使用注解缓存 -->
+    <cache:annotation-driven />
 
-    <!-- 统一全局异常处理视图 (todo:目前没用上） -->
+    <!-- 统一全局异常处理视图 (todo:有效果） -->
     <bean id="handleExceptionResolver" class="cn.sevenleave.xmlconfig.support.exception.GlobalExceptionHandler"></bean>
 
 </beans>

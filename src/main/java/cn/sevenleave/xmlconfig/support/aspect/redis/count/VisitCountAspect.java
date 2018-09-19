@@ -39,7 +39,7 @@ public class VisitCountAspect {
      */
     @After(value = "countAspect()")
     public void afterVisited(JoinPoint joinpoint) {
-        String key = "cache_record:info:visit";
+        String key = "xmlconfig:visit:total";
         boolean exist = redisUtil.hasKey(key);
         if (exist) {
             // key存在,自增
@@ -48,7 +48,7 @@ public class VisitCountAspect {
             // key不存在,初始化
             redisUtil.setIfAbsent(key, "1");
         }
-        LOGGER.info("redis-console: cache_record:info:visit(++) ");
+        LOGGER.info("xmlconfig:visit:total ++");
     }
 
 }

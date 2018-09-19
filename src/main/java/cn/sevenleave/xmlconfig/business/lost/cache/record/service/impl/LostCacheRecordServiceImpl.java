@@ -53,13 +53,13 @@ public class LostCacheRecordServiceImpl implements ILostCacheRecordService {
         Map<String, Object> paramMap = pageRequest.getParamMap();
         // 分页过滤
         PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        // 如果没有匹配的数据,会返回size=0的list
+        // 如果没有匹配的数据,mapper查询会返回size=0的list
         List<LostCacheRecord> lostCacheRecordList = cacheRecordMapper.selectLostCacheRecordList(paramMap);
         return lostCacheRecordList;
     }
 
     /**
-     * 描述：修改“招领”记录
+     * 描述：修改用户提交的“招领”记录的缓存
      *
      * @param lostCacheRecord
      * @return
@@ -69,7 +69,7 @@ public class LostCacheRecordServiceImpl implements ILostCacheRecordService {
     public int modifyLostCacheRecord(LostCacheRecord lostCacheRecord) throws Exception {
         // Example修改
         Example example = new Example(LostCacheRecord.class);
-        example.createCriteria().andEqualTo("userUuid", lostCacheRecord.getUserUuid());
+        example.createCriteria().andEqualTo("uuid", lostCacheRecord.getUuid());
         int rows = cacheRecordMapper.updateByExampleSelective(lostCacheRecord, example);
         return rows;
     }
@@ -78,7 +78,7 @@ public class LostCacheRecordServiceImpl implements ILostCacheRecordService {
      * 描述：根据uuid查询“招领”记录
      *
      * @param uuid
-     * @return
+     * @return LostCacheRecord对象或null
      * @throws Exception
      */
     @Override
