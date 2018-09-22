@@ -41,6 +41,8 @@
     <!--// redis-relative //-->
     <jedis.version>2.9.0</jedis.version>
     <spring-redis.version>2.0.9.RELEASE</spring-redis.version>
+    <!--// shiro-relative //-->
+    <shiro.version>1.4.0</shiro.version>
   </properties>
 
   <dependencies>
@@ -223,6 +225,7 @@
       <scope>test</scope>
     </dependency>
 
+
     <!--// redis-relative //-->
     <dependency>
       <groupId>redis.clients</groupId>
@@ -233,9 +236,21 @@
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-redis</artifactId>
       <version>${spring-redis.version}</version>
+
+    <!--// shiro-relative //-->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>${shiro.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <version>${shiro.version}</version>
     </dependency>
 
   </dependencies>
+
 
   <!-- 构建设置 -->
   <build>
