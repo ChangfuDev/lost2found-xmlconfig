@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class UserInfoControllerTest extends SpringMvcTestBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserInfoControllerTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoControllerTest.class);
 
     // 虚拟的MVC对象
     private MockMvc mockMvc;

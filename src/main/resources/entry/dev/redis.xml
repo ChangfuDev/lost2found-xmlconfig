@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <description>redis配置</description>
+    <!-- spring-data-redis 2.0.9RELEASE版本的配置和以前有很大不同 -->
+
+    <!-- 加载属性文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:entry/dev/spring.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- redis连接池 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+        <property name="testWhileIdle" value="${redis.testWhileIdle}"/>
+    </bean>
+    <!-- redis的单机配置信息 -->
+    <bean id="redisPassword" class="org.springframework.data.redis.connection.RedisPassword">
+        <constructor-arg name="thePassword" value="${redis.password}"/>
+    </bean>
+    <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="password" ref="redisPassword"/>
+        <property name="database" value="${redis.dbIndex}"/>
+    </bean>
+    <!-- redis连接工厂 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration"/>
+    </bean>
+    <!-- redis操作模板 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+    </bean>
+    <!--StringRedisTemplate,专注于String的操作  -->
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <constructor-arg name="connectionFactory" ref="jedisConnectionFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+    </bean>
+    <!-- 开启redis缓存的注解支持 -->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+    <!-- 配置cacheManager -->
+    <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" factory-method="create">
+        <constructor-arg name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+    <!-- redisUtil的bean,可以直接在代码中注入使用 -->
+    <bean id="redisUtil" class="cn.sevenleave.xmlconfig.support.redis.RedisUtil">
+        <property name="redisTemplate" ref="stringRedisTemplate"/>
+    </bean>
+
+</beans>

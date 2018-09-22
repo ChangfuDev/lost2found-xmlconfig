@@ -6,21 +6,11 @@
 
   <display-name>xmlconfig</display-name>
 
-  <!-- logback配置 -->
-  <context-param>
-    <param-name>logbackConfigLocation</param-name>
-    <!-- 环境切换 -->
-    <param-value>classpath:entry/dev/logback.xml</param-value>
-  </context-param>
-  <listener>
-    <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
-  </listener>
-  
   <!-- spring配置 -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <!-- 环境切换，读取spring配置文件，启动spring -->
-    <param-value>classpath:entry/dev/spring-entry.xml</param-value>
+    <!-- 环境切换 -->
+    <param-value>classpath:entry/dev/spring.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -43,6 +33,16 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
+  <!-- logback配置 -->
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>
+    <!-- 环境切换 -->
+    <param-value>classpath:entry/dev/logback.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+  </listener>
+
   <!-- druid连接池监控 -->
   <servlet>
     <servlet-name>DruidStatView</servlet-name>
@@ -50,7 +50,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DruidStatView</servlet-name>
-    <url-pattern>/admin/druid/*</url-pattern>
+    <url-pattern>/druid/*</url-pattern>
   </servlet-mapping>
 
   <!-- servlet编码过滤器 -->
@@ -78,30 +78,34 @@
   </context-param>
   <!-- session超时为15分钟 -->
   <session-config>
-    <session-timeout>30</session-timeout>
+    <session-timeout>15</session-timeout>
   </session-config>
 
   <!--// 系统错误页面设置 //-->
+  <!-- 400-bad request -->
+  <error-page>
+    <error-code>400</error-code>
+    <location>/WEB-INF/views/page/support/errorpages/400.jsp</location>
+  </error-page>
   <!-- 403-forbidden -->
   <error-page>
     <error-code>403</error-code>
-    <location>/WEB-INF/views/page/errorpages/403.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/403.jsp</location>
   </error-page>
   <!-- 404-not found -->
   <error-page>
     <error-code>404</error-code>
-    <location>/WEB-INF/views/page/errorpages/404.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/404.jsp</location>
   </error-page>
   <!-- 500-internal server error -->
   <error-page>
     <error-code>500</error-code>
-    <location>/WEB-INF/views/page/errorpages/500.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/500.jsp</location>
   </error-page>
   <!-- Exception error -->
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
-    <location>/WEB-INF/views/page/errorpages/error.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/error.jsp</location>
   </error-page>
-
 
 </web-app>

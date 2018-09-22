@@ -3,7 +3,7 @@ package cn.sevenleave.xmlconfig.user;
 import base.SpringTestBase;
 import cn.sevenleave.xmlconfig.user.model.UserInfo;
 import cn.sevenleave.xmlconfig.user.service.IUserInfoService;
-import cn.sevenleave.xmlconfig.utils.util.StringUtils;
+import cn.sevenleave.xmlconfig.support.utils.StringUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import org.springframework.test.annotation.Rollback;
  */
 public class UserInfoServiceTest extends SpringTestBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserInfoServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoServiceTest.class);
 
     @Autowired
     private IUserInfoService userInfoService;

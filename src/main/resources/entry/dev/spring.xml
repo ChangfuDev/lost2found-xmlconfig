@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <!--// spring父容器配置 //-->
+
+  <!-- 1.开启对注解的自动扫描,扫描spring组件 -->
+  <!-- 2.不扫描@Controller与@ControllerAdvice的controller组件 -->
+  <context:component-scan base-package="cn.sevenleave.xmlconfig">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+  </context:component-scan>
+
+  <!-- spring父容器也需要开启aop -->
+  <aop:aspectj-autoproxy/>
+
+  <!-- 引入mybatis数据库配置 -->
+  <import resource="classpath:entry/dev/datasource-lost2found.xml"/>
+
+  <!-- 引入redis配置 -->
+  <import resource="classpath:entry/dev/redis.xml"/>
+
+</beans>

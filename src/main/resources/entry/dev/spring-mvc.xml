@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:context="http://www.springframework.org/schema/context"
         xmlns:mvc="http://www.springframework.org/schema/mvc"
-        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
         xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -12,44 +12,58 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-  <!-- 加载属性文件，根据环境来切换 -->
-  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="locations">
-      <list>
-        <value>classpath:entry/dev/spring.properties</value>
-      </list>
-    </property>
-  </bean>
+    <!-- 加载属性文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:entry/dev/spring.properties</value>
+            </list>
+        </property>
+    </bean>
 
-  <!-- 自动扫描controller包下的bean,aspect和advice这2个日后讨论 -->
-  <context:component-scan
-          base-package="cn.sevenleave.xmlconfig.**.controller, cn.sevenleave.xmlconfig.system.aspect"/>
-  <!-- 启用controller注解支持 -->
-  <mvc:annotation-driven/>
+    <!-- 1.开启对注解的自动扫描,关闭默认扫描类型 -->
+    <!-- 2.仅扫描@Controller与@ControllerAdvice的controller组件 -->
+    <context:component-scan base-package="cn.sevenleave.xmlconfig.**.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+    <!-- 3.支持mvc相关的注解,能进行消息分发:如@RequestMapping/@ResponseBody -->
+    <mvc:annotation-driven/>
 
-  <!-- 开启aop注解支持,cglib -->
-  <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 1.开启aop注解支持,true代表代理是修改类，是cglib -->
+    <!-- 2.因为aop与controller一起使用，所以要在spring-mvc中开启aop注解，使得在同一上下文 -->
+    <!-- 3.spring-mvc中开启的aop只能对controller中的方法有效 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-  <!-- 当在web.xml中DispatcherServlet使用<url-pattern>/</url-pattern>映射时，能映射资源 -->
-  <mvc:default-servlet-handler/>
+    <!-- 1.将url路径映射为对应文件 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/page/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 2.把对静态资源的请求，转发给servlet默认容器;DispatcherServlet会放行这些资源，不做拦截 -->
+    <mvc:default-servlet-handler/>
+    <!-- 3.对静态资源的url路径做实体映射 -->
+    <mvc:resources mapping="/css/**" location="/WEB-INF/views/css/"/>
+    <mvc:resources mapping="/font/**" location="/WEB-INF/views/font/"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/views/js/"/>
+    <mvc:resources mapping="/img/**" location="/WEB-INF/views/img/"/>
+    <mvc:resources mapping="/**/*.html" location="/WEB-INF/views/page/"/>
 
-  <!-- 将视图名映射为URL文件 -->
-  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-    <property name="prefix" value="/WEB-INF/views/page/"/>
-    <property name="suffix" value=".jsp"/>
-  </bean>
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxInMemorySize" value="10240"/>
+        <!-- 最大文件大小，单位byte，-1为不限制大小 默认限制5MB-->
+        <property name="maxUploadSize" value="-1"/>
+    </bean>
 
-  <!-- 静态资源路径映射 -->
-  <mvc:resources mapping="/css/**" location="/WEB-INF/views/css/" cache-period="0"/>
-  <mvc:resources mapping="/font/**" location="/WEB-INF/views/font/" cache-period="0"/>
-  <mvc:resources mapping="/js/**" location="/WEB-INF/views/js/" cache-period="0"/>
-  <mvc:resources mapping="/img/**" location="/WEB-INF/views/img/" cache-period="0"/>
-  <mvc:resources mapping="/**/*.html" location="/WEB-INF/views/page/" cache-period="0"/>
+    <!-- 开启mvc的注解缓存,一般不用,因为不会在controller上使用注解缓存 -->
+    <cache:annotation-driven />
 
-  <!-- 统一全局异常处理视图 (todo:目前好像没用上） -->
-  <bean id="handleExceptionResolver" class="cn.sevenleave.xmlconfig.utils.exception.GlobalExceptionHandler"></bean>
+    <!-- 统一全局异常处理视图 (todo:有效果） -->
+    <bean id="handleExceptionResolver" class="cn.sevenleave.xmlconfig.support.exception.GlobalExceptionHandler"></bean>
 
 </beans>
