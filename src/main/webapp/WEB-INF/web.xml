@@ -85,27 +85,27 @@
   <!-- 400-bad request -->
   <error-page>
     <error-code>400</error-code>
-    <location>/WEB-INF/views/page/errorpages/400.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/400.jsp</location>
   </error-page>
   <!-- 403-forbidden -->
   <error-page>
     <error-code>403</error-code>
-    <location>/WEB-INF/views/page/errorpages/403.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/403.jsp</location>
   </error-page>
   <!-- 404-not found -->
   <error-page>
     <error-code>404</error-code>
-    <location>/WEB-INF/views/page/errorpages/404.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/404.jsp</location>
   </error-page>
   <!-- 500-internal server error -->
   <error-page>
     <error-code>500</error-code>
-    <location>/WEB-INF/views/page/errorpages/500.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/500.jsp</location>
   </error-page>
   <!-- Exception error -->
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
-    <location>/WEB-INF/views/page/errorpages/error.jsp</location>
+    <location>/WEB-INF/views/page/support/errorpages/error.jsp</location>
   </error-page>
 
 </web-app>

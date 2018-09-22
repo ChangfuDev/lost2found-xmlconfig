@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sevenleave.xmlconfig.business.owner.mapper.SysOwnerMapper">
+  <resultMap id="BaseResultMap" type="cn.sevenleave.xmlconfig.business.owner.model.SysOwner">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="release_record_uuid" jdbcType="VARCHAR" property="releaseRecordUuid" />
+    <result column="owner_name" jdbcType="VARCHAR" property="ownerName" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
+  </resultMap>
+</mapper>

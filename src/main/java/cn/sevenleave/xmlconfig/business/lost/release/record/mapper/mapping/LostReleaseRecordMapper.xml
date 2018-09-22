@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sevenleave.xmlconfig.business.lost.release.record.mapper.LostReleaseRecordMapper">
+    <resultMap id="BaseResultMap" type="cn.sevenleave.xmlconfig.business.lost.release.record.model.LostReleaseRecord">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="cache_record_uuid" jdbcType="VARCHAR" property="cacheRecordUuid"/>
+        <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+    </resultMap>
+
+    <resultMap id="LostReleaseRecordDtoResult"
+               type="cn.sevenleave.xmlconfig.business.lost.release.record.dto.LostReleaseRecordDto"
+               extends="BaseResultMap">
+        <!-- 关联LostCacheRecord的resultMap -->
+        <association property="lostCacheRecord" columnPrefix="association_"
+                     resultMap="cn.sevenleave.xmlconfig.business.lost.cache.record.mapper.LostCacheRecordMapper.BaseResultMap"/>
+    </resultMap>
+
+    <select id="selectLostReleaseRecordDtoList" parameterType="java.util.Map" resultMap="LostReleaseRecordDtoResult">
+        SELECT b.uuid AS "association_uuid", b.user_uuid AS "association_user_uuid", b.keyword AS "association_keyword",
+        b.description AS "association_description", b.pickup_time AS "association_pickup_time", b.submit_time AS
+        "association_submit_time", b.status AS "association_status", a.uuid, a.cache_record_uuid, a.release_time,
+        a.status FROM lost_release_record a LEFT JOIN lost_cache_record b ON a.cache_record_uuid = b.uuid
+        <where>
+            <if test="keywordLike != null and keywordLike != ''">
+                AND b.keyword LIKE concat('%', #{keywordLike}, '%')
+            </if>
+            <if test="descriptionLike != null and descriptionLike != ''">
+                AND b.description LIKE concat('%', #{descriptionLike}, '%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND b.submit_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND b.submit_time &lt;= #{endTime}
+            </if>
+            <if test="status != null and status != ''">
+                AND a.status = #{status}
+            </if>
+        </where>
+        <if test="orderColumn != null and orderColumn != ''">
+            ORDER BY ${orderColumn}
+        </if>
+        <if test="orderType != null and orderType != ''">
+            ${orderType}
+        </if>
+    </select>
+
+</mapper>

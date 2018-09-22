@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sevenleave.xmlconfig.business.lost.cache.check.mapper.LostCacheCheckMapper">
+  <resultMap id="BaseResultMap" type="cn.sevenleave.xmlconfig.business.lost.cache.check.model.LostCacheCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="waiter_uuid" jdbcType="VARCHAR" property="waiterUuid" />
+    <result column="cache_record_uuid" jdbcType="VARCHAR" property="cacheRecordUuid" />
+    <result column="handle" jdbcType="CHAR" property="handle" />
+    <result column="handle_time" jdbcType="TIMESTAMP" property="handleTime" />
+  </resultMap>
+</mapper>
