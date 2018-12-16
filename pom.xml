@@ -236,6 +236,7 @@
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-redis</artifactId>
       <version>${spring-redis.version}</version>
+    </dependency>
 
     <!--// shiro-relative //-->
     <dependency>
