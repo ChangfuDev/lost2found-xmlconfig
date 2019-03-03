@@ -14,7 +14,7 @@
     <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
       <!-- 指明继承的Mapper<T>，不能修改 -->
       <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
-      <!-- caseSensitive默认为false，当数据库的表明区分大小写时，可以设置为true -->
+      <!-- caseSensitive默认为false，当数据库的表名区分大小写时，可以设置为true -->
       <property name="caseSensitive" value="true"/>
       <property name="forceAnnotation" value="true"/>
     </plugin>
