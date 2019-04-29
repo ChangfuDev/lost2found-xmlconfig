@@ -36,7 +36,7 @@
     <logback.ext.version>0.1.5</logback.ext.version>
     <!--// utils-relative //-->
     <commons-fileupload.version>1.3.3</commons-fileupload.version>
-    <jackson.version>2.9.6</jackson.version>
+    <jackson.version>2.9.8</jackson.version>
     <junit.version>4.12</junit.version>
     <!--// redis-relative //-->
     <jedis.version>2.9.0</jedis.version>
